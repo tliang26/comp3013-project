@@ -11,7 +11,7 @@ const users = [
 
 export const posts = [
   {
-    id: 1,
+    id: "1",
     title: "Bird",
     category: "nature",
     content:
@@ -21,7 +21,7 @@ export const posts = [
     userId: 1,
   },
   {
-    id: 2,
+    id: "2",
     title: "Beautiful BC",
     category: "nature",
     content: "BC is a province full of beauty at every corner.",
@@ -31,14 +31,22 @@ export const posts = [
   },
 ];
 
-export const addPost = (post: any) => {
+export const addPost = (post: any, userId: number) => {
   //  Issues:
   //  *     The request body contains the title, category, and image,
   //  *     but the addPost function needs to add a unique id
   //  *     and the id of the currently logged in user to the post.
-  post.id = 3;
-  post.userId = 2;
+  post.id = crypto.randomUUID();
+  post.userId = userId;
   posts.push(post);
+};
+
+export const editPost = (post: any) => {
+  const original = posts.find(item => item.id == post.id)!;
+  original.title = post.title;
+  original.category = post.category;
+  original.image = post.image;
+  original.content = post.content;
 };
 
 export const verifyUser = (email: string, password: string) => {

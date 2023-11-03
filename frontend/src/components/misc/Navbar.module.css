@@ -27,3 +27,9 @@
     color: var(--mantine-color-white);
   }
 }
+
+.right {
+  display: flex;
+  align-items: center;
+  column-gap: 15px;
+}

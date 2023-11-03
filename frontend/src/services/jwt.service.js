@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const setSession = (token) => {
+export const setSession = (token, user) => {
   if (token) {
     localStorage.setItem("jwt_access_token", token);
     axios.defaults.headers.common["Authorization"] = "Bearer " + token;

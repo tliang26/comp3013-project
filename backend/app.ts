@@ -7,6 +7,7 @@ import {
   verifyUser,
   parseToken,
   addPost,
+  editPost,
   posts,
   sleep,
 } from "./fakedb";
@@ -51,7 +52,7 @@ app.get("/api/posts", async (req, res) => {
 app.get("/api/posts/:id", (req, res) => {
   const id = req.params.id;
   // The line below should be fixed.
-  res.json(posts[0]);
+  res.json(posts.find(post => post.id == id));
 });
 
 /**
@@ -66,7 +67,15 @@ app.get("/api/posts/:id", (req, res) => {
  */
 app.post("/api/posts", (req, res) => {
   const incomingPost = req.body;
-  addPost(incomingPost);
+  const token = parseToken(req.headers.authorization, res);
+  const userId = (jwt.verify(token, "secret") as IDecodedUser).id;
+  addPost(incomingPost, userId);
+  res.status(200).json({ success: true });
+});
+
+app.post("/api/posts/:id", (req, res) => {
+  const editedPost = req.body;
+  editPost(editedPost);
   res.status(200).json({ success: true });
 });
 

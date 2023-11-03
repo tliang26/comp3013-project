@@ -2,23 +2,33 @@ import { TextInput, Button, Group, Box } from "@mantine/core";
 import DOMAIN from "../../services/endpoint";
 import axios from "axios";
 import { useForm } from "@mantine/form";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function CreatePostPage() {
   const navigate = useNavigate();
+
+  let { state } = useLocation();
   const form = useForm({
     initialValues: {
-      title: "",
-      category: "",
-      image: "",
-      content: "",
+      title: `${state == null ? "" : state.title}`,
+      category: `${state == null ? "" : state.category}`,
+      image: `${state == null ? "" : state.image}`,
+      content: `${state == null ? "" : state.content}`,
     },
   });
 
   const handleSubmit = async (values) => {
-    const res = await axios.post(`${DOMAIN}/api/posts`, values);
-    if (res?.data.success) {
-      navigate("/posts");
+    if (state == null) {
+      const res = await axios.post(`${DOMAIN}/api/posts`, values);
+      if (res?.data.success) {
+        navigate("/posts");
+      }
+    }
+    else {
+      const res = await axios.post(`${DOMAIN}/api/posts/${window.location.pathname.split("/").pop()}`, values);
+      if (res?.data.success) {
+        navigate(`/posts/${window.location.pathname.split("/").pop()}`);
+      }
     }
   };
 
@@ -49,7 +59,7 @@ function CreatePostPage() {
         />
 
         <Group position="right" mt="md">
-          <Button type="submit">Submit</Button>
+          <Button type="submit">{state == null ? "Submit" : "Update"}</Button>
         </Group>
       </form>
     </Box>

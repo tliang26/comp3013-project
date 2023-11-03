@@ -1,0 +1,19 @@
+.details {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  column-gap: 24px;
+  width: 100%;
+  margin-bottom: 48px;
+}
+
+.flexItem {
+  max-width: 50%;
+  max-height: 400px;
+}
+
+.button {
+  display: flex;
+  column-gap: 24px;
+  margin-bottom: 72px;
+}
