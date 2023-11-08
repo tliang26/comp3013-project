@@ -19,15 +19,15 @@ function CreatePostPage() {
 
   const handleSubmit = async (values) => {
     if (state == null) {
-      const res = await axios.post(`${DOMAIN}/api/posts`, values);
+      const res = await axios.post(`${DOMAIN}/api/posts/create`, values);
       if (res?.data.success) {
         navigate("/posts");
       }
     }
     else {
-      const res = await axios.post(`${DOMAIN}/api/posts/${window.location.pathname.split("/").pop()}`, values);
+      const res = await axios.post(`${DOMAIN}/api/posts/update`, values);
       if (res?.data.success) {
-        navigate(`/posts/${window.location.pathname.split("/").pop()}`);
+        navigate(`/posts/1`);
       }
     }
   };

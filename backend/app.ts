@@ -45,6 +45,7 @@ app.post("/api/user/validation", (req, res) => {
 
 app.get("/api/posts", async (req, res) => {
   // Sleep delay goes here
+  await sleep(5000);
   res.json(posts);
 });
 
@@ -65,7 +66,7 @@ app.get("/api/posts/:id", (req, res) => {
  *     What if you make a request to this route with a valid token but
  *     with an empty/incorrect payload (post)
  */
-app.post("/api/posts", (req, res) => {
+app.post("/api/posts/create", (req, res) => {
   const incomingPost = req.body;
   const token = parseToken(req.headers.authorization, res);
   const userId = (jwt.verify(token, "secret") as IDecodedUser).id;
@@ -73,7 +74,7 @@ app.post("/api/posts", (req, res) => {
   res.status(200).json({ success: true });
 });
 
-app.post("/api/posts/:id", (req, res) => {
+app.post("/api/posts/update", (req, res) => {
   const editedPost = req.body;
   editPost(editedPost);
   res.status(200).json({ success: true });
