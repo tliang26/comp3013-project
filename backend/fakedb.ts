@@ -42,7 +42,7 @@ export const addPost = (post: any, userId: number) => {
 };
 
 export const editPost = (post: any) => {
-  let original = posts.find(item => item.id == post.id)!;
+  const original = posts.find(item => item.id == post.id)!;
   original.title = post.title;
   original.category = post.category;
   original.image = post.image;

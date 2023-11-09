@@ -25,9 +25,10 @@ function CreatePostPage() {
       }
     }
     else {
-      const res = await axios.post(`${DOMAIN}/api/posts/update`, values);
+      const combined = {...state, ...values};
+      const res = await axios.post(`${DOMAIN}/api/posts/update`, combined);
       if (res?.data.success) {
-        navigate(`/posts/1`);
+        navigate("/posts/" + state.id);
       }
     }
   };
