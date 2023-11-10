@@ -10,35 +10,25 @@ export const PostPage = () => {
   const posts = useLoaderData();
   return (
     <Container>
-      <SimpleGrid cols={3}>
-        {posts?.map((post) => (
-          <ArticleCardImage key={post.title} {...post} />
-        ))}
-      </SimpleGrid>
-    </Container>
+      <React.Suspense fallback={<PageLoader />}>
+        <SimpleGrid cols={3}>
+          <Await
+            resolve={posts.res}
+            errorElement={
+              <p>Error loading posts!</p>
+            }
+          >
+            {(res) => res.data?.map((post) => (
+              <ArticleCardImage key={post.title} {...post} />
+            ))}
+          </Await>
+        </SimpleGrid>
+      </React.Suspense>
+    </Container >
   );
 };
 
 export const postsLoader = async () => {
-  const res = await axios.get(`${DOMAIN}/api/posts`);
-  return res.data;
+  const res = axios.get(`${DOMAIN}/api/posts`);
+  return defer({ res });
 };
-
-/*
-<Container>
-  <React.Suspense fallback={<PageLoader />}>
-    <Await
-      resolve={posts}
-      errorElement={
-        <p>Error loading posts!</p>
-      }
-    >
-      <SimpleGrid cols={3}>
-        {posts?.map((post) => (
-          <ArticleCardImage key={post.title} {...post} />
-        ))}
-      </SimpleGrid>
-    </Await>
-  </React.Suspense>
-</Container>
-*/
